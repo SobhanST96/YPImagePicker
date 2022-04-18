@@ -11,13 +11,28 @@ import Photos
 
 public class YPPhotoSaver {
     class func trySaveImage(_ image: UIImage, inAlbumNamed: String) {
-        if PHPhotoLibrary.authorizationStatus() == .authorized {
-            if let album = album(named: inAlbumNamed) {
-                saveImage(image, toAlbum: album)
-            } else {
-                createAlbum(withName: inAlbumNamed) {
-                    if let album = album(named: inAlbumNamed) {
-                        saveImage(image, toAlbum: album)
+        if #available(iOS 14, *) {
+            if PHPhotoLibrary.authorizationStatus() == .authorized ||
+                PHPhotoLibrary.authorizationStatus() == .limited {
+                if let album = album(named: inAlbumNamed) {
+                    saveImage(image, toAlbum: album)
+                } else {
+                    createAlbum(withName: inAlbumNamed) {
+                        if let album = album(named: inAlbumNamed) {
+                            saveImage(image, toAlbum: album)
+                        }
+                    }
+                }
+            }
+        } else {
+            if PHPhotoLibrary.authorizationStatus() == .authorized {
+                if let album = album(named: inAlbumNamed) {
+                    saveImage(image, toAlbum: album)
+                } else {
+                    createAlbum(withName: inAlbumNamed) {
+                        if let album = album(named: inAlbumNamed) {
+                            saveImage(image, toAlbum: album)
+                        }
                     }
                 }
             }

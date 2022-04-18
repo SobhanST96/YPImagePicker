@@ -249,6 +249,12 @@ public struct YPConfigVideo {
     /// Choose the result video extension if you trim or compress a video. Defaults to mov.
     public var fileType: AVFileType = .mov
     
+    /// sets a capture quality for recording session. Defaults to high.
+    public var recoridingQuality: AVCaptureSession.Preset = .high
+    
+    /// sets a capture frame/sec for recording session. Defaults to 30fps.
+    public var fps: Int32 = 30
+    
     /// Defines the time limit for recording videos.
     /// Default is 60 seconds.
     public var recordingTimeLimit: TimeInterval = 60.0
